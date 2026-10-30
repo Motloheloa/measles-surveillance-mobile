@@ -1,11 +1,10 @@
-
-
 import 'package:flutter/material.dart';
 
 import '../database/app_database.dart';
 import '../models/patient.dart';
 import '../models/specimen.dart';
 import 'patient_details_screen.dart';
+import 'laboratory_stage_form_screen.dart';
 
 class SpecimenDetailsScreen extends StatefulWidget {
   final Specimen specimen;
@@ -20,19 +19,20 @@ class SpecimenDetailsScreen extends StatefulWidget {
       _SpecimenDetailsScreenState();
 }
 
-class _SpecimenDetailsScreenState extends State<SpecimenDetailsScreen> {
+class _SpecimenDetailsScreenState
+    extends State<SpecimenDetailsScreen> {
   static const teal = Color(0xFF0F766E);
 
   Patient? patient;
   bool loading = true;
 
   static const stages = [
-    ('Dispatch', Icons.local_shipping_outlined),
-    ('Reception', Icons.inventory_2_outlined),
+    ('Specimen Dispatch', Icons.local_shipping_outlined),
+    ('Lab Reception', Icons.inventory_2_outlined),
     ('Testing', Icons.biotech_outlined),
     ('Results', Icons.assignment_outlined),
-    ('Release', Icons.verified_outlined),
-    ('Acknowledgment', Icons.task_alt_outlined),
+    ('Results Release', Icons.verified_outlined),
+    ('Results View', Icons.task_alt_outlined),
   ];
 
   @override
@@ -45,6 +45,7 @@ class _SpecimenDetailsScreenState extends State<SpecimenDetailsScreen> {
     final patients = await AppDatabase.instance.getPatients();
 
     Patient? associated;
+
     for (final record in patients) {
       if (record.id == widget.specimen.patientLocalId) {
         associated = record;
@@ -58,6 +59,61 @@ class _SpecimenDetailsScreenState extends State<SpecimenDetailsScreen> {
       patient = associated;
       loading = false;
     });
+  }
+
+  // =====================================================
+  // OPEN LABORATORY FORM
+  // =====================================================
+
+  Future<void> openLaboratoryForm(int stageIndex) async {
+    final specimenLocalId = widget.specimen.id;
+
+    final catalog = LaboratoryStageCatalog.stages;
+
+    final canOpen = LaboratoryFormDrafts.canOpen(
+      specimenLocalId,
+      stageIndex,
+    );
+
+    if (!canOpen) {
+      final firstIncomplete = catalog.indexWhere(
+            (stage) => !LaboratoryFormDrafts.isComplete(
+          specimenLocalId,
+          stage,
+        ),
+      );
+
+      if (firstIncomplete != -1) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Complete ${catalog[firstIncomplete].name} '
+                  'before proceeding.',
+            ),
+            backgroundColor: Colors.orange,
+          ),
+        );
+      }
+
+      return;
+    }
+
+    final stage = catalog[stageIndex];
+
+    await Navigator.push<bool>(
+      context,
+      MaterialPageRoute<bool>(
+        builder: (_) => LaboratoryStageFormScreen(
+          specimenLocalId: specimenLocalId,
+          specimenId: widget.specimen.specimenId,
+          stage: stage,
+        ),
+      ),
+    );
+
+    if (!mounted) return;
+
+    setState(() {});
   }
 
   Widget detailRow(String label, String value) {
@@ -75,7 +131,9 @@ class _SpecimenDetailsScreenState extends State<SpecimenDetailsScreen> {
             child: Text(
               value,
               textAlign: TextAlign.right,
-              style: const TextStyle(fontWeight: FontWeight.w600),
+              style: const TextStyle(
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ],
@@ -97,6 +155,10 @@ class _SpecimenDetailsScreenState extends State<SpecimenDetailsScreen> {
           : ListView(
         padding: const EdgeInsets.all(18),
         children: [
+          // =====================================
+          // SPECIMEN HEADER
+          // =====================================
+
           Container(
             padding: const EdgeInsets.all(22),
             decoration: BoxDecoration(
@@ -110,7 +172,9 @@ class _SpecimenDetailsScreenState extends State<SpecimenDetailsScreen> {
                   color: Colors.white,
                   size: 44,
                 ),
+
                 const SizedBox(height: 12),
+
                 Text(
                   specimen.specimenId,
                   style: const TextStyle(
@@ -119,12 +183,18 @@ class _SpecimenDetailsScreenState extends State<SpecimenDetailsScreen> {
                     color: Colors.white,
                   ),
                 ),
+
                 const SizedBox(height: 6),
+
                 Text(
                   specimen.sampleType,
-                  style: const TextStyle(color: Colors.white70),
+                  style: const TextStyle(
+                    color: Colors.white70,
+                  ),
                 ),
+
                 const SizedBox(height: 12),
+
                 Chip(
                   label: Text(
                     specimen.syncStatus == 'pending'
@@ -140,6 +210,10 @@ class _SpecimenDetailsScreenState extends State<SpecimenDetailsScreen> {
 
           const SizedBox(height: 24),
 
+          // =====================================
+          // SPECIMEN INFORMATION
+          // =====================================
+
           const Text(
             'Specimen information',
             style: TextStyle(
@@ -147,6 +221,7 @@ class _SpecimenDetailsScreenState extends State<SpecimenDetailsScreen> {
               fontWeight: FontWeight.bold,
             ),
           ),
+
           const SizedBox(height: 12),
 
           Card(
@@ -159,15 +234,27 @@ class _SpecimenDetailsScreenState extends State<SpecimenDetailsScreen> {
               ),
               child: Column(
                 children: [
-                  detailRow('Specimen ID', specimen.specimenId),
+                  detailRow(
+                    'Specimen ID',
+                    specimen.specimenId,
+                  ),
+
                   const Divider(height: 1),
-                  detailRow('Sample type', specimen.sampleType),
+
+                  detailRow(
+                    'Sample type',
+                    specimen.sampleType,
+                  ),
+
                   const Divider(height: 1),
+
                   detailRow(
                     'Collection date',
                     specimen.collectedAt.split('T').first,
                   ),
+
                   const Divider(height: 1),
+
                   detailRow(
                     'Sync status',
                     specimen.syncStatus,
@@ -179,6 +266,10 @@ class _SpecimenDetailsScreenState extends State<SpecimenDetailsScreen> {
 
           const SizedBox(height: 24),
 
+          // =====================================
+          // ASSOCIATED PATIENT
+          // =====================================
+
           const Text(
             'Associated patient',
             style: TextStyle(
@@ -186,6 +277,7 @@ class _SpecimenDetailsScreenState extends State<SpecimenDetailsScreen> {
               fontWeight: FontWeight.bold,
             ),
           ),
+
           const SizedBox(height: 12),
 
           Card(
@@ -194,10 +286,14 @@ class _SpecimenDetailsScreenState extends State<SpecimenDetailsScreen> {
             child: ListTile(
               leading: const CircleAvatar(
                 backgroundColor: Color(0xFFE0F2F1),
-                child: Icon(Icons.person_outline, color: teal),
+                child: Icon(
+                  Icons.person_outline,
+                  color: teal,
+                ),
               ),
               title: Text(
-                patient?.fullName ?? 'Patient unavailable',
+                patient?.fullName ??
+                    'Patient unavailable',
               ),
               subtitle: Text(
                 patient == null
@@ -213,9 +309,10 @@ class _SpecimenDetailsScreenState extends State<SpecimenDetailsScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => PatientDetailsScreen(
-                      patient: patient!,
-                    ),
+                    builder: (_) =>
+                        PatientDetailsScreen(
+                          patient: patient!,
+                        ),
                   ),
                 );
               },
@@ -224,6 +321,10 @@ class _SpecimenDetailsScreenState extends State<SpecimenDetailsScreen> {
 
           const SizedBox(height: 24),
 
+          // =====================================
+          // LABORATORY JOURNEY
+          // =====================================
+
           const Text(
             'Laboratory journey',
             style: TextStyle(
@@ -231,12 +332,15 @@ class _SpecimenDetailsScreenState extends State<SpecimenDetailsScreen> {
               fontWeight: FontWeight.bold,
             ),
           ),
+
           const SizedBox(height: 6),
+
           const Text(
-            'Stages will update when laboratory events '
-                'are synchronized from DHIS2.',
+            'Complete each laboratory stage '
+                'to unlock the next stage.',
             style: TextStyle(color: Colors.grey),
           ),
+
           const SizedBox(height: 14),
 
           Card(
@@ -247,56 +351,137 @@ class _SpecimenDetailsScreenState extends State<SpecimenDetailsScreen> {
               child: Column(
                 children: [
                   for (var i = 0; i < stages.length; i++)
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
-                          children: [
-                            CircleAvatar(
-                              radius: 20,
-                              backgroundColor:
-                              const Color(0xFFF1F5F9),
-                              child: Icon(
-                                stages[i].$2,
-                                color: Colors.grey,
-                                size: 20,
-                              ),
-                            ),
-                            if (i < stages.length - 1)
-                              Container(
-                                width: 2,
-                                height: 30,
-                                color: const Color(0xFFE2E8F0),
-                              ),
-                          ],
-                        ),
-                        const SizedBox(width: 14),
-                        Expanded(
+                    Builder(
+                      builder: (context) {
+                        final stage =
+                        LaboratoryStageCatalog.stages[i];
+
+                        final completed =
+                        LaboratoryFormDrafts.isComplete(
+                          specimen.id,
+                          stage,
+                        );
+
+                        final unlocked =
+                        LaboratoryFormDrafts.canOpen(
+                          specimen.id,
+                          i,
+                        );
+
+                        return InkWell(
+                          onTap: () => openLaboratoryForm(i),
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 8),
-                            child: Column(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 8,
+                            ),
+                            child: Row(
                               crossAxisAlignment:
                               CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  stages[i].$1,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w600,
+                                Column(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 20,
+                                      backgroundColor: completed
+                                          ? const Color(0xFFD1FAE5)
+                                          : const Color(0xFFF1F5F9),
+                                      child: Icon(
+                                        completed
+                                            ? Icons.check_circle
+                                            : unlocked
+                                            ? stages[i].$2
+                                            : Icons.lock_outline,
+                                        color: completed
+                                            ? const Color(0xFF059669)
+                                            : unlocked
+                                            ? teal
+                                            : Colors.grey,
+                                        size: 22,
+                                      ),
+                                    ),
+
+                                    if (i < stages.length - 1)
+                                      Container(
+                                        width: 2,
+                                        height: 35,
+                                        color: completed
+                                            ? const Color(0xFF059669)
+                                            : const Color(0xFFE2E8F0),
+                                      ),
+                                  ],
+                                ),
+
+                                const SizedBox(width: 14),
+
+                                Expanded(
+                                  child: Padding(
+                                    padding:
+                                    const EdgeInsets.only(top: 2),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Stage ${i + 1}',
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+
+                                        const SizedBox(height: 4),
+
+                                        Text(
+                                          stages[i].$1,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 15,
+                                            color: unlocked
+                                                ? const Color(0xFF123047)
+                                                : Colors.grey,
+                                          ),
+                                        ),
+
+                                        const SizedBox(height: 5),
+
+                                        Text(
+                                          completed
+                                              ? 'Completed'
+                                              : unlocked
+                                              ? 'Pending - Tap to complete'
+                                              : 'Locked - Complete previous stage',
+                                          style: TextStyle(
+                                            color: completed
+                                                ? const Color(0xFF059669)
+                                                : Colors.grey,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                                const SizedBox(height: 4),
-                                const Text(
-                                  'Awaiting laboratory update',
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 12,
+
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.only(top: 12),
+                                  child: Icon(
+                                    completed
+                                        ? Icons.check_circle
+                                        : unlocked
+                                        ? Icons.chevron_right
+                                        : Icons.lock_outline,
+                                    color: completed
+                                        ? const Color(0xFF059669)
+                                        : Colors.grey,
+                                    size: 22,
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                        ),
-                      ],
+                        );
+                      },
                     ),
                 ],
               ),
@@ -309,4 +494,3 @@ class _SpecimenDetailsScreenState extends State<SpecimenDetailsScreen> {
     );
   }
 }
-
