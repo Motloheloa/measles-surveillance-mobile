@@ -71,13 +71,11 @@ class LaboratoryStageCatalog {
       formTitle: 'MSL Specimen Dispatch',
       icon: Icons.local_shipping_outlined,
       fields: [
-
         LaboratoryFieldDefinition(
           id: 'dispatchDateTime',
           label: 'Dispatch date time',
           type: LaboratoryFieldType.dateTime,
         ),
-
         LaboratoryFieldDefinition(
           id: 'transportMode',
           label: 'Transport mode',
@@ -89,7 +87,6 @@ class LaboratoryStageCatalog {
             'Other',
           ],
         ),
-
         LaboratoryFieldDefinition(
           id: 'courierName',
           label: 'Courier name',
@@ -101,13 +98,11 @@ class LaboratoryStageCatalog {
             'Other',
           ],
         ),
-
         LaboratoryFieldDefinition(
           id: 'coldChainMaintained',
           label: 'Cold chain maintained',
           type: LaboratoryFieldType.yesNo,
         ),
-
         LaboratoryFieldDefinition(
           id: 'dispatchOfficer',
           label: 'Dispatch officer',
@@ -126,57 +121,36 @@ class LaboratoryStageCatalog {
       formTitle: 'MSL Lab Reception',
       icon: Icons.inventory_2_outlined,
       fields: [
-
-        // 1. Receipt date time
-
         LaboratoryFieldDefinition(
           id: 'receiptDateTime',
           label: 'Receipt date time',
           type: LaboratoryFieldType.dateTime,
         ),
-
-        // 2. Lab number
-
         LaboratoryFieldDefinition(
           id: 'labNumber',
           label: 'Lab number',
           type: LaboratoryFieldType.text,
         ),
-
-        // 3. Specimen volume
-
         LaboratoryFieldDefinition(
           id: 'specimenVolume',
           label: 'Specimen volume',
           type: LaboratoryFieldType.number,
         ),
-
-        // 4. Specimen leakage - Yes/No dropdown
-
         LaboratoryFieldDefinition(
           id: 'specimenLeakage',
           label: 'Specimen leakage',
           type: LaboratoryFieldType.yesNo,
         ),
-
-        // 5. Specimen temperature
-
         LaboratoryFieldDefinition(
           id: 'specimenTemperature',
           label: 'Specimen temperature',
           type: LaboratoryFieldType.number,
         ),
-
-        // 6. Accepted - Yes/No dropdown
-
         LaboratoryFieldDefinition(
           id: 'accepted',
           label: 'Accepted',
           type: LaboratoryFieldType.yesNo,
         ),
-
-        // 7. Reception officer
-
         LaboratoryFieldDefinition(
           id: 'receptionOfficer',
           label: 'Reception officer',
@@ -195,25 +169,16 @@ class LaboratoryStageCatalog {
       formTitle: 'MSL Testing',
       icon: Icons.biotech_outlined,
       fields: [
-
-        // 1. Testing receipt date time
-
         LaboratoryFieldDefinition(
           id: 'testingReceiptDateTime',
           label: 'Testing receipt date time',
           type: LaboratoryFieldType.dateTime,
         ),
-
-        // 2. Test start date time
-
         LaboratoryFieldDefinition(
           id: 'testStartDateTime',
           label: 'Test start date time',
           type: LaboratoryFieldType.dateTime,
         ),
-
-        // 3. Test method
-
         LaboratoryFieldDefinition(
           id: 'testMethod',
           label: 'Test method',
@@ -223,9 +188,6 @@ class LaboratoryStageCatalog {
             'RT-PCR',
           ],
         ),
-
-        // 4. Testing officer
-
         LaboratoryFieldDefinition(
           id: 'testingOfficer',
           label: 'Testing officer',
@@ -244,17 +206,11 @@ class LaboratoryStageCatalog {
       formTitle: 'MSL Results',
       icon: Icons.assignment_outlined,
       fields: [
-
-        // 1. Results date time
-
         LaboratoryFieldDefinition(
           id: 'resultsDateTime',
           label: 'Results date time',
           type: LaboratoryFieldType.dateTime,
         ),
-
-        // 2. Measles IgM
-
         LaboratoryFieldDefinition(
           id: 'measlesIgm',
           label: 'Measles IgM',
@@ -267,9 +223,6 @@ class LaboratoryStageCatalog {
             'Not Done',
           ],
         ),
-
-        // 3. Rubella IgM
-
         LaboratoryFieldDefinition(
           id: 'rubellaIgm',
           label: 'Rubella IgM',
@@ -282,29 +235,20 @@ class LaboratoryStageCatalog {
             'Not Done',
           ],
         ),
-
-        // 4. PCR done
-
         LaboratoryFieldDefinition(
           id: 'pcrDone',
           label: 'PCR done',
           type: LaboratoryFieldType.dropdown,
           options: [
             'Yes',
-            'No'
+            'No',
           ],
         ),
-
-        // 5. Results comments
-
         LaboratoryFieldDefinition(
           id: 'resultsComments',
           label: 'Results comments',
           type: LaboratoryFieldType.multiline,
         ),
-
-        // 6. Results officer
-
         LaboratoryFieldDefinition(
           id: 'resultsOfficer',
           label: 'Results officer',
@@ -323,33 +267,21 @@ class LaboratoryStageCatalog {
       formTitle: 'MSL Results Release',
       icon: Icons.verified_outlined,
       fields: [
-
-        // 1. Authorized by
-
         LaboratoryFieldDefinition(
           id: 'authorizedBy',
           label: 'Authorized by',
           type: LaboratoryFieldType.text,
         ),
-
-        // 2. Authorization date time
-
         LaboratoryFieldDefinition(
           id: 'authorizationDateTime',
           label: 'Authorization date time',
           type: LaboratoryFieldType.dateTime,
         ),
-
-        // 3. Notification sent - Yes/No dropdown
-
         LaboratoryFieldDefinition(
           id: 'notificationSent',
           label: 'Notification sent',
           type: LaboratoryFieldType.yesNo,
         ),
-
-        // 4. Notification channel
-
         LaboratoryFieldDefinition(
           id: 'notificationChannel',
           label: 'Notification channel',
@@ -374,25 +306,16 @@ class LaboratoryStageCatalog {
       formTitle: 'MSL Results View',
       icon: Icons.task_alt_outlined,
       fields: [
-
-        // 1. Viewed by
-
         LaboratoryFieldDefinition(
           id: 'viewedBy',
           label: 'Viewed by',
           type: LaboratoryFieldType.text,
         ),
-
-        // 2. Viewed date time
-
         LaboratoryFieldDefinition(
           id: 'viewedDateTime',
           label: 'Viewed date time',
           type: LaboratoryFieldType.dateTime,
         ),
-
-        // 3. Follow up action
-
         LaboratoryFieldDefinition(
           id: 'followUpAction',
           label: 'Follow up action',
@@ -448,6 +371,83 @@ class LaboratoryFormDrafts {
       specimenLocalId,
           () => <String, Map<String, String>>{},
     )[stageId] = Map<String, String>.from(values);
+  }
+
+  // ====================================================
+  // NEW: CHECK STAGE COMPLETION
+  // ====================================================
+
+  static bool isComplete(
+      String specimenLocalId,
+      LaboratoryStageDefinition stage,
+      ) {
+    final values = _drafts[specimenLocalId]?[stage.id];
+
+    if (values == null || stage.fields.isEmpty) {
+      return false;
+    }
+
+    for (final field in stage.fields) {
+      final value = values[field.id]?.trim() ?? '';
+
+      if (value.isEmpty) {
+        return false;
+      }
+
+      if (field.type == LaboratoryFieldType.number &&
+          num.tryParse(value) == null) {
+        return false;
+      }
+
+      if (field.type == LaboratoryFieldType.yesNo &&
+          value != 'Yes' &&
+          value != 'No') {
+        return false;
+      }
+
+      if (field.type == LaboratoryFieldType.dropdown &&
+          !field.options.contains(value)) {
+        return false;
+      }
+
+      if (field.type == LaboratoryFieldType.date ||
+          field.type == LaboratoryFieldType.dateTime) {
+        if (DateTime.tryParse(value) == null) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  // ====================================================
+  // NEW: CHECK WHETHER STAGE IS UNLOCKED
+  // ====================================================
+
+  static bool canOpen(
+      String specimenLocalId,
+      int stageIndex,
+      ) {
+    if (stageIndex < 0 ||
+        stageIndex >= LaboratoryStageCatalog.stages.length) {
+      return false;
+    }
+
+    if (stageIndex == 0) {
+      return true;
+    }
+
+    for (var i = 0; i < stageIndex; i++) {
+      final previousStage =
+      LaboratoryStageCatalog.stages[i];
+
+      if (!isComplete(specimenLocalId, previousStage)) {
+        return false;
+      }
+    }
+
+    return true;
   }
 }
 
@@ -590,8 +590,7 @@ class _LaboratoryStageFormScreenState
       LaboratoryFieldDefinition field,
       String? value,
       ) {
-    if (field.required &&
-        (value == null || value.trim().isEmpty)) {
+    if (value == null || value.trim().isEmpty) {
       return '${field.label} is required';
     }
 
@@ -607,9 +606,8 @@ class _LaboratoryStageFormScreenState
       ) {
     const border = OutlineInputBorder();
 
-    final label = field.required
-        ? '${field.label} *'
-        : field.label;
+    // All fields are required for sequential completion.
+    final label = '${field.label} *';
 
     // ==================================================
     // DROPDOWN AND YES/NO FIELDS
@@ -654,7 +652,16 @@ class _LaboratoryStageFormScreenState
           });
         },
         validator: (value) {
-          return validateRequired(field, value);
+          final error = validateRequired(field, value);
+
+          if (error != null) return error;
+
+          if (field.type == LaboratoryFieldType.dropdown &&
+              !field.options.contains(value)) {
+            return 'Select a valid ${field.label.toLowerCase()}';
+          }
+
+          return null;
         },
       );
     }
@@ -677,7 +684,15 @@ class _LaboratoryStageFormScreenState
         ),
         onTap: () => pickDate(field),
         validator: (value) {
-          return validateRequired(field, value);
+          final error = validateRequired(field, value);
+
+          if (error != null) return error;
+
+          if (DateTime.tryParse(value!) == null) {
+            return 'Select a valid date';
+          }
+
+          return null;
         },
       );
     }
@@ -719,13 +734,8 @@ class _LaboratoryStageFormScreenState
           return requiredError;
         }
 
-        // Validate numeric input.
-        // Used for specimen volume and temperature.
-
         if (field.type == LaboratoryFieldType.number &&
-            value != null &&
-            value.trim().isNotEmpty &&
-            num.tryParse(value.trim()) == null) {
+            num.tryParse(value!.trim()) == null) {
           return 'Enter a valid number';
         }
 
@@ -791,10 +801,8 @@ class _LaboratoryStageFormScreenState
       body: SafeArea(
         child: Form(
           key: formKey,
-
           child: ListView(
             padding: const EdgeInsets.all(18),
-
             children: [
 
               // ========================================
@@ -804,14 +812,11 @@ class _LaboratoryStageFormScreenState
               Card(
                 color: Colors.white,
                 elevation: 0,
-
                 child: Padding(
                   padding: const EdgeInsets.all(18),
-
                   child: Column(
                     crossAxisAlignment:
                     CrossAxisAlignment.start,
-
                     children: [
                       Text(
                         stage.formTitle,
@@ -871,10 +876,8 @@ class _LaboratoryStageFormScreenState
                 Card(
                   color: Colors.white,
                   elevation: 0,
-
                   child: Padding(
                     padding: const EdgeInsets.all(20),
-
                     child: Column(
                       children: [
                         const Icon(
@@ -911,18 +914,12 @@ class _LaboratoryStageFormScreenState
                 Card(
                   color: Colors.white,
                   elevation: 0,
-
                   child: Padding(
                     padding: const EdgeInsets.all(18),
-
                     child: Column(
                       crossAxisAlignment:
                       CrossAxisAlignment.stretch,
-
                       children: [
-
-                        // Render every field in order.
-
                         for (final field in stage.fields) ...[
                           buildField(field),
                           const SizedBox(height: 18),
@@ -930,13 +927,8 @@ class _LaboratoryStageFormScreenState
 
                         const SizedBox(height: 8),
 
-                        // =================================
-                        // SAVE BUTTON
-                        // =================================
-
                         FilledButton.icon(
                           onPressed: savePreview,
-
                           style: FilledButton.styleFrom(
                             backgroundColor: teal,
                             foregroundColor: Colors.white,
@@ -945,11 +937,9 @@ class _LaboratoryStageFormScreenState
                               vertical: 16,
                             ),
                           ),
-
                           icon: const Icon(
                             Icons.save_outlined,
                           ),
-
                           label: const Text(
                             'Save form preview',
                           ),
@@ -960,10 +950,6 @@ class _LaboratoryStageFormScreenState
                 ),
 
               const SizedBox(height: 16),
-
-              // ========================================
-              // PREVIEW NOTICE
-              // ========================================
 
               const Text(
                 'UI preview only. Values are held '
