@@ -84,6 +84,9 @@ class LaboratoryStageCatalog {
           type: LaboratoryFieldType.dropdown,
           options: [
             'Vehicle',
+            'Motorcycle',
+            'Air',
+            'Other',
           ],
         ),
 
@@ -93,6 +96,9 @@ class LaboratoryStageCatalog {
           type: LaboratoryFieldType.dropdown,
           options: [
             'Government courier',
+            'Facility Staff',
+            'Partner Courier',
+            'Other',
           ],
         ),
 
@@ -186,9 +192,46 @@ class LaboratoryStageCatalog {
     LaboratoryStageDefinition(
       id: 'testing',
       name: 'Testing',
-      formTitle: 'Testing',
+      formTitle: 'MSL Testing',
       icon: Icons.biotech_outlined,
-      fields: [],
+      fields: [
+
+        // 1. Testing receipt date time
+
+        LaboratoryFieldDefinition(
+          id: 'testingReceiptDateTime',
+          label: 'Testing receipt date time',
+          type: LaboratoryFieldType.dateTime,
+        ),
+
+        // 2. Test start date time
+
+        LaboratoryFieldDefinition(
+          id: 'testStartDateTime',
+          label: 'Test start date time',
+          type: LaboratoryFieldType.dateTime,
+        ),
+
+        // 3. Test method
+
+        LaboratoryFieldDefinition(
+          id: 'testMethod',
+          label: 'Test method',
+          type: LaboratoryFieldType.dropdown,
+          options: [
+            'IgM ELISA',
+            'RT-PCR',
+          ],
+        ),
+
+        // 4. Testing officer
+
+        LaboratoryFieldDefinition(
+          id: 'testingOfficer',
+          label: 'Testing officer',
+          type: LaboratoryFieldType.text,
+        ),
+      ],
     ),
 
     // ==================================================
@@ -198,9 +241,76 @@ class LaboratoryStageCatalog {
     LaboratoryStageDefinition(
       id: 'results',
       name: 'Results',
-      formTitle: 'Results',
+      formTitle: 'MSL Results',
       icon: Icons.assignment_outlined,
-      fields: [],
+      fields: [
+
+        // 1. Results date time
+
+        LaboratoryFieldDefinition(
+          id: 'resultsDateTime',
+          label: 'Results date time',
+          type: LaboratoryFieldType.dateTime,
+        ),
+
+        // 2. Measles IgM
+
+        LaboratoryFieldDefinition(
+          id: 'measlesIgm',
+          label: 'Measles IgM',
+          type: LaboratoryFieldType.dropdown,
+          options: [
+            'Positive',
+            'Negative',
+            'Equivocal',
+            'Indeterminate',
+            'Not Done',
+          ],
+        ),
+
+        // 3. Rubella IgM
+
+        LaboratoryFieldDefinition(
+          id: 'rubellaIgm',
+          label: 'Rubella IgM',
+          type: LaboratoryFieldType.dropdown,
+          options: [
+            'Positive',
+            'Negative',
+            'Equivocal',
+            'Indeterminate',
+            'Not Done',
+          ],
+        ),
+
+        // 4. PCR done
+
+        LaboratoryFieldDefinition(
+          id: 'pcrDone',
+          label: 'PCR done',
+          type: LaboratoryFieldType.dropdown,
+          options: [
+            'Yes',
+            'No'
+          ],
+        ),
+
+        // 5. Results comments
+
+        LaboratoryFieldDefinition(
+          id: 'resultsComments',
+          label: 'Results comments',
+          type: LaboratoryFieldType.multiline,
+        ),
+
+        // 6. Results officer
+
+        LaboratoryFieldDefinition(
+          id: 'resultsOfficer',
+          label: 'Results officer',
+          type: LaboratoryFieldType.text,
+        ),
+      ],
     ),
 
     // ==================================================
@@ -210,9 +320,48 @@ class LaboratoryStageCatalog {
     LaboratoryStageDefinition(
       id: 'release',
       name: 'Results Release',
-      formTitle: 'Results Release',
+      formTitle: 'MSL Results Release',
       icon: Icons.verified_outlined,
-      fields: [],
+      fields: [
+
+        // 1. Authorized by
+
+        LaboratoryFieldDefinition(
+          id: 'authorizedBy',
+          label: 'Authorized by',
+          type: LaboratoryFieldType.text,
+        ),
+
+        // 2. Authorization date time
+
+        LaboratoryFieldDefinition(
+          id: 'authorizationDateTime',
+          label: 'Authorization date time',
+          type: LaboratoryFieldType.dateTime,
+        ),
+
+        // 3. Notification sent - Yes/No dropdown
+
+        LaboratoryFieldDefinition(
+          id: 'notificationSent',
+          label: 'Notification sent',
+          type: LaboratoryFieldType.yesNo,
+        ),
+
+        // 4. Notification channel
+
+        LaboratoryFieldDefinition(
+          id: 'notificationChannel',
+          label: 'Notification channel',
+          type: LaboratoryFieldType.dropdown,
+          options: [
+            'LTV',
+            'SMS',
+            'Email',
+            'Telephone',
+          ],
+        ),
+      ],
     ),
 
     // ==================================================
@@ -222,9 +371,43 @@ class LaboratoryStageCatalog {
     LaboratoryStageDefinition(
       id: 'view',
       name: 'Results View',
-      formTitle: 'Results View',
+      formTitle: 'MSL Results View',
       icon: Icons.task_alt_outlined,
-      fields: [],
+      fields: [
+
+        // 1. Viewed by
+
+        LaboratoryFieldDefinition(
+          id: 'viewedBy',
+          label: 'Viewed by',
+          type: LaboratoryFieldType.text,
+        ),
+
+        // 2. Viewed date time
+
+        LaboratoryFieldDefinition(
+          id: 'viewedDateTime',
+          label: 'Viewed date time',
+          type: LaboratoryFieldType.dateTime,
+        ),
+
+        // 3. Follow up action
+
+        LaboratoryFieldDefinition(
+          id: 'followUpAction',
+          label: 'Follow up action',
+          type: LaboratoryFieldType.dropdown,
+          options: [
+            'No action',
+            'Clinical follow-up',
+            'Case Investigation',
+            'Repeat Specimen',
+            'Repeat Patient',
+            'Refer Patient',
+            'Other',
+          ],
+        ),
+      ],
     ),
   ];
 }
@@ -685,7 +868,6 @@ class _LaboratoryStageFormScreenState
               // ========================================
 
               if (!hasFields)
-
                 Card(
                   color: Colors.white,
                   elevation: 0,
@@ -725,9 +907,7 @@ class _LaboratoryStageFormScreenState
                     ),
                   ),
                 )
-
               else
-
                 Card(
                   color: Colors.white,
                   elevation: 0,
